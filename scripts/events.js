@@ -82,7 +82,7 @@ AFRAME.registerComponent('click-listener', {
         this.doorOpenDuration = 1000; // Duration of opening animation (Default: 1000)
         this.doorOpenPosition = 0.35; // Absolute value of x position of doors in their opened state (Default: 0.35)
         this.doorOpenEasing = 'easeInOutQuad'; // Easing (Default: 'easeInOutQuad')
-        
+
         // Door Closing
         this.doorCloseDuration = 1000; // Duration of closing animation (Default: 1000)
         this.doorClosePosition = 0; // Absolute value of x position of doors in their closed state (Default: 0)
@@ -142,17 +142,31 @@ AFRAME.registerComponent('click-listener', {
     },
 
     fetchGitHubFolders: async function () {
+        const repoOwner = "ahmedmansour3548";
+        const repoName = "MRInteractiveWallPage";
+        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents`;
+
         try {
-            const response = await fetch('http://localhost:5240/api/getGitHubFolders');
+            const response = await fetch(apiUrl, {
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    'User-Agent': 'request',
+                },
+            });
             if (!response.ok) {
-                this.errorText.setAttribute('visible', true);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const folders = await response.json();
-            console.log("Fetched folders:", folders); // Log the fetched folders
-            return folders;
+            const repoContent = await response.json();
+
+            // Filter out numbered folders
+            return repoContent.filter(item => {
+                return item.type === 'dir' && !isNaN(parseInt(item.name));
+            }).map(item => ({
+                name: item.name,
+                type: item.type,
+                download_url: item.download_url,
+            }));
         } catch (error) {
-            this.errorText.setAttribute('visible', true);
             console.error('Error fetching GitHub folders:', error);
             return [];
         }
@@ -313,7 +327,7 @@ AFRAME.registerComponent('click-listener', {
     writeText: function (element, text, speed = 10) {
         let currentIndex = 0;
         const textLength = text.length;
-        
+
         // Store the animation instance
         this.textAnimation = AFRAME.ANIME({
             targets: { index: currentIndex },
@@ -386,15 +400,15 @@ AFRAME.registerComponent('click-listener', {
             case "right-panel-bottom-right-button": // Link to Personals
             case "right-panel-bottom-link-button":
                 window.open(this.memberURL, '_blank');
-            return;
+                return;
             case "right-panel-bottom-left-button": // Play/Pause Animation
             case "right-panel-bottom-animation-button":
                 this.toggleModelAnimation();
-            return;
+                return;
             default: // Clicked on ID
                 break;
         }
-        
+
         // Get the 'name' attribute of the clicked button
         const buttonName = evt.detail.intersectedEl.getAttribute('name');
         const buttonId = parseInt(buttonName); // Extract the ID number from the 'name'
@@ -433,7 +447,7 @@ AFRAME.registerComponent('click-listener', {
         this.smokeBlastersArray.forEach(particleSystem => {
             particleSystem.startParticles();
         });
-    
+
         // Disable all blasters after timeout
         setTimeout(() => {
             this.smokeBlastersArray.forEach(particleSystem => {
@@ -457,13 +471,13 @@ AFRAME.registerComponent('click-listener', {
             this.previousPageButton.setAttribute('visible', 'false');
             this.previousPageButton.setAttribute('class', '');
             this.previousPageButtonFrame.setAttribute('visible', 'false');
-            
 
-            
+
+
         }
     },
 
-    showMenuButtons: function() {
+    showMenuButtons: function () {
         this.updateButtons();
         this.nextPageButton.setAttribute('visible', this.pageNum < this.totalPages);
         this.nextPageButton.setAttribute('class', this.pageNum < this.totalPages ? 'clickable' : '');
@@ -473,7 +487,7 @@ AFRAME.registerComponent('click-listener', {
         this.previousPageButtonFrame.setAttribute('visible', this.pageNum > 1);
     },
 
-    showLabMemberObjects: function() {
+    showLabMemberObjects: function () {
         this.leftPanelMenuButton.setAttribute('visible', true);
         this.leftPanelMenuButton.setAttribute('class', 'clickable');
         this.leftLineDivider.setAttribute('visible', true);
@@ -490,7 +504,7 @@ AFRAME.registerComponent('click-listener', {
         this.rightArrowContainer.setAttribute('visible', true);
     },
 
-    hideLabMemberObjects: function() {
+    hideLabMemberObjects: function () {
         this.leftPanelMenuButton.setAttribute('visible', false);
         this.leftPanelMenuButton.setAttribute('class', '');
         this.leftLineDivider.setAttribute('visible', false);
@@ -503,10 +517,10 @@ AFRAME.registerComponent('click-listener', {
         this.leftArrowContainer.setAttribute('visible', false);
         this.rightArrow.setAttribute('visible', false);
         this.rightArrowButton.setAttribute('class', '');
-        this.rightArrowContainer.setAttribute('visible', false);        
+        this.rightArrowContainer.setAttribute('visible', false);
     },
 
-    hideRightPanelButtons: function() {
+    hideRightPanelButtons: function () {
         this.rightPanelBottomLeftButton.setAttribute('class', '');
         this.rightPanelBottomLeftButton.setAttribute('visible', false);
         this.rightPanelBottomRightButton.setAttribute('class', '');
@@ -517,14 +531,14 @@ AFRAME.registerComponent('click-listener', {
         this.rightPanelBottomLinkButton.setAttribute('visible', false);
     },
 
-    clearLabMemberInfo: function() {
+    clearLabMemberInfo: function () {
         this.labMemberNumber.setAttribute("value", '');
         this.labMemberName.setAttribute("value", '');
         this.labMemberRole.setAttribute("value", '');
         this.labMemberNote.setAttribute("value", '');
     },
 
-    setPanelButtons: function() {
+    setPanelButtons: function () {
         if (this.hasAnimation && this.hasLink) {
             // Enable the two button setup
             this.rightPanelBottomLeftButton.setAttribute('class', 'clickable');
@@ -545,13 +559,13 @@ AFRAME.registerComponent('click-listener', {
         }
     },
 
-    resetModelAnimation: function() {
+    resetModelAnimation: function () {
         this.isModelAnimating = false;
         this.rightPanelBottomLeftButtonText.setAttribute('value', 'Pause Animation');
         this.rightPanelBottomLeftButtonIcon.setAttribute('src', '#pauseIcon');
         this.rightPanelBottomAnimationButtonText.setAttribute('value', 'Pause Animation');
         this.rightPanelBottomAnimationButtonIcon.setAttribute('src', '#pauseIcon');
-        if(this.hasAnimation) {
+        if (this.hasAnimation) {
             this.currentClip.play();
             this.currentClip.setEffectiveTimeScale(1);
         }
@@ -568,7 +582,7 @@ AFRAME.registerComponent('click-listener', {
                 this.rightPanelBottomAnimationButtonText.setAttribute('value', 'Play Animation');
                 this.rightPanelBottomAnimationButtonIcon.setAttribute('src', '#playIcon');
             }
-           
+
             this.currentClip.halt();
         }
         else {
@@ -601,7 +615,7 @@ AFRAME.registerComponent('click-listener', {
         if (this.isDoorAnimating || this.currentLabMember == null) return;
         // Determine the previous lab member ID
         const prevLabMember = this.currentLabMember - 1;
-        
+
         if (prevLabMember < 1) {
             // If it's the first member on the current page, move to the previous page
             this.pageNum = Math.max(this.pageNum - 1, 1);
@@ -629,6 +643,46 @@ AFRAME.registerComponent('click-listener', {
         }
     },
 
+    fetchGitHubModel: async function (folderName) {
+        const apiUrl = `https://api.github.com/repos/ahmedmansour3548/MRInteractiveWallPage/contents/${folderName}`;
+
+        try {
+            const response = await fetch(apiUrl, {
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    'User-Agent': 'GitHub-API-Client',
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const folderContent = await response.json();
+
+            let modelFileUrl = null;
+            let jsonFileUrl = null;
+
+            // Search for .glb or .gltf file and .json file in the folder
+            folderContent.forEach((item) => {
+                const fileName = item.name;
+                const fileType = fileName.split('.').pop();
+
+                if (fileType === 'glb' || fileType === 'gltf') {
+                    modelFileUrl = item.download_url;
+                } else if (fileType === 'json') {
+                    jsonFileUrl = item.download_url;
+                }
+            });
+
+            return {
+                modelUrl: modelFileUrl,
+                jsonUrl: jsonFileUrl,
+            };
+        } catch (error) {
+            console.error('Error fetching model URL:', error);
+            return {};
+        }
+    },
+
     viewLabMember: function (markerID) {
         // Track the current lab member
         this.currentLabMember = markerID;
@@ -637,126 +691,128 @@ AFRAME.registerComponent('click-listener', {
         if (markerID) {
             console.log("markerID: " + markerID);
             // Fetch the model and JSON file URLs
-            fetch(`http://localhost:5240/api/getGitHubModel?folderName=${markerID}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    this.modelUrl = data.modelUrl;
-                    const jsonUrl = data.jsonUrl;
-                    
-                    // Fetch the JSON parameter file
-                    fetch(jsonUrl)
-                        .then((response) => response.json())
-                        .then((jsonData) => {
-                            console.log(jsonData);
-                            if (jsonData.model) {
-                                // Apply custom model parameters
-                                const modelParams = {
-                                    scale: "scale",
-                                    position: "position",
-                                    rotation: "rotation",
-                                    color: "color",
-                                    opacity: "opacity",
-                                    visible: "visible",
-                                    castShadow: "cast-shadow",
-                                    receiveShadow: "receive-shadow"
-                                };
+            this.fetchGitHubModel(markerID).then((data) => {
+                if (!data.modelUrl || !data.jsonUrl) {
+                    console.error('Model or JSON file URL not found');
+                    return;
+                }
+                this.modelUrl = data.modelUrl;
+                const jsonUrl = data.jsonUrl;
 
-                                for (const [key, attr] of Object.entries(modelParams)) {
-                                    if (jsonData.model[key]) {
-                                        console.log("setting param ", key);
-                                        this.centerEntity.setAttribute(attr, jsonData.model[key]);
-                                    } else {
-                                        // Set default values
-                                        switch (attr) {
-                                            case "scale":
-                                                this.centerEntity.setAttribute(attr, "0.2 0.2 0.2");
-                                                break;
-                                            case "position":
-                                                console.log("setting default pos");
-                                                this.centerEntity.setAttribute(attr, "0 -2 0");
-                                                break;
-                                            case "rotation":
-                                                this.centerEntity.setAttribute(attr, "-90 0 0");
-                                                break;
-                                            case "color":
-                                                this.centerEntity.setAttribute(attr, "#ffffff");
-                                                break;
-                                            case "opacity":
-                                                this.centerEntity.setAttribute(attr, "1");
-                                                break;
-                                            case "visible":
-                                                this.centerEntity.setAttribute(attr, "true");
-                                                break;
-                                            case "cast-shadow":
-                                                this.centerEntity.setAttribute(attr, "true");
-                                                break;
-                                            case "receive-shadow":
-                                                this.centerEntity.setAttribute(attr, "true");
-                                                break;
-                                        }
+                // Fetch the JSON parameter file
+                fetch(jsonUrl)
+                    .then((response) => response.json())
+                    .then((jsonData) => {
+                        console.log(jsonData);
+                        if (jsonData.model) {
+                            // Apply custom model parameters
+                            const modelParams = {
+                                scale: "scale",
+                                position: "position",
+                                rotation: "rotation",
+                                color: "color",
+                                opacity: "opacity",
+                                visible: "visible",
+                                castShadow: "cast-shadow",
+                                receiveShadow: "receive-shadow"
+                            };
+
+                            for (const [key, attr] of Object.entries(modelParams)) {
+                                if (jsonData.model[key]) {
+                                    console.log("setting param ", key);
+                                    this.centerEntity.setAttribute(attr, jsonData.model[key]);
+                                } else {
+                                    // Set default values
+                                    switch (attr) {
+                                        case "scale":
+                                            this.centerEntity.setAttribute(attr, "0.2 0.2 0.2");
+                                            break;
+                                        case "position":
+                                            console.log("setting default pos");
+                                            this.centerEntity.setAttribute(attr, "0 -2 0");
+                                            break;
+                                        case "rotation":
+                                            this.centerEntity.setAttribute(attr, "-90 0 0");
+                                            break;
+                                        case "color":
+                                            this.centerEntity.setAttribute(attr, "#ffffff");
+                                            break;
+                                        case "opacity":
+                                            this.centerEntity.setAttribute(attr, "1");
+                                            break;
+                                        case "visible":
+                                            this.centerEntity.setAttribute(attr, "true");
+                                            break;
+                                        case "cast-shadow":
+                                            this.centerEntity.setAttribute(attr, "true");
+                                            break;
+                                        case "receive-shadow":
+                                            this.centerEntity.setAttribute(attr, "true");
+                                            break;
                                     }
                                 }
                             }
-                            // Set the gltf-model attribute of the center entity to the model URL
-                            this.centerEntity.setAttribute("gltf-model", this.modelUrl);
+                        }
+                        // Set the gltf-model attribute of the center entity to the model URL
+                        this.centerEntity.setAttribute("gltf-model", this.modelUrl);
 
-                            // If lab member included a link
-                            if (jsonData.member.link) {
-                                this.hasLink = true;
-                                this.memberURL = jsonData.member.link;
+                        // If lab member included a link
+                        if (jsonData.member.link) {
+                            this.hasLink = true;
+                            this.memberURL = jsonData.member.link;
+                        }
+
+                        // Check for animations in the loaded model
+                        this.centerEntity.addEventListener('model-loaded', () => {
+                            const model = this.centerEntity.getObject3D('mesh');
+                            if (model && model.animations && model.animations.length > 0) {
+                                this.hasAnimation = true;
+                                // Create a mixer to play the animations
+                                this.mixer = new THREE.AnimationMixer(model);
+                                this.clips = model.animations;
+
+                                // Play the first animation by default
+                                this.currentClip = this.mixer.clipAction(this.clips[0]);
+                                this.currentClip.play();
+
+                                // Update the animation on each frame
+                                this.tick = (time, deltaTime) => {
+                                    if (this.mixer) {
+                                        this.mixer.update(deltaTime / 1000);
+                                    }
+                                };
+                                this.el.sceneEl.addBehavior(this);
+
+
                             }
-
-                            // Check for animations in the loaded model
-                            this.centerEntity.addEventListener('model-loaded', () => {
-                                const model = this.centerEntity.getObject3D('mesh');
-                                if (model && model.animations && model.animations.length > 0) {
-                                    this.hasAnimation = true;
-                                    // Create a mixer to play the animations
-                                    this.mixer = new THREE.AnimationMixer(model);
-                                    this.clips = model.animations;
-
-                                    // Play the first animation by default
-                                    this.currentClip = this.mixer.clipAction(this.clips[0]);
-                                    this.currentClip.play();
-
-                                    // Update the animation on each frame
-                                    this.tick = (time, deltaTime) => {
-                                        if (this.mixer) {
-                                            this.mixer.update(deltaTime / 1000);
-                                        }
-                                    };
-                                    this.el.sceneEl.addBehavior(this);
-
-
-                                }
-                                // Set the panel buttons here to ensure animations are checked before
-                                this.hideRightPanelButtons();
-                                this.setPanelButtons();
-                                this.resetModelAnimation();
-                                // Set the value of the text attributes to the extracted information
-                                // Dynamically set the font size depending on character length
-                                this.labMemberNote.setAttribute("font-size", 
-                                    Math.max(0.07 - (jsonData.member.note.length / 100) * (0.07 - this.noteMaximumSize), 
+                            // Set the panel buttons here to ensure animations are checked before
+                            this.hideRightPanelButtons();
+                            this.setPanelButtons();
+                            this.resetModelAnimation();
+                            // Set the value of the text attributes to the extracted information
+                            // Dynamically set the font size depending on character length
+                            this.labMemberNote.setAttribute("font-size",
+                                Math.max(0.07 - (jsonData.member.note.length / 100) * (0.07 - this.noteMaximumSize),
                                     this.noteMaximumSize));
-                                this.labMemberNumber.setAttribute("value", jsonData.member.labID);
-                                this.labMemberName.setAttribute("value", jsonData.member.name);
-                                this.labMemberRole.setAttribute("value", jsonData.member.role);
-                                //this.labMemberNote.setAttribute("value", jsonData.member.note);
-                                this.writeText(this.labMemberNote, jsonData.member.note, 10);
-                                this.virtualRoomNumber.setAttribute("value", jsonData.member.labID);
-                                
-                                // Now that the model and info are ready, open the doors and display the model
-                                this.isDoorAnimating = true;
-                                this.openDoors(() => {
-                                    // Small delay before moving model
-                                    setTimeout(() => {
-                                        this.displayModel();
-                                    }, this.modelEnterDelay);
-                                });
+                            this.labMemberNumber.setAttribute("value", jsonData.member.labID);
+                            this.labMemberName.setAttribute("value", jsonData.member.name);
+                            this.labMemberRole.setAttribute("value", jsonData.member.role);
+                            //this.labMemberNote.setAttribute("value", jsonData.member.note);
+                            this.writeText(this.labMemberNote, jsonData.member.note, 10);
+                            this.virtualRoomNumber.setAttribute("value", jsonData.member.labID);
+
+                            // Now that the model and info are ready, open the doors and display the model
+                            this.isDoorAnimating = true;
+                            this.openDoors(() => {
+                                // Small delay before moving model
+                                setTimeout(() => {
+                                    this.displayModel();
+                                }, this.modelEnterDelay);
                             });
-                        })
-                        .catch((error) => console.error('Error fetching JSON file:', error));
-                })
+                        });
+                    })
+                    .catch((error) => console.error('Error fetching JSON file:', error));
+            })
                 .catch((error) => console.error('Error fetching model URL:', error));
         }
     },
@@ -793,7 +849,7 @@ AFRAME.registerComponent('click-listener', {
                 button.setAttribute('color', this.highlightColor);
             else
                 button.setAttribute('color', this.buttonColor);
-            
+
         });
     },
     loadLabMembers: function (page) {

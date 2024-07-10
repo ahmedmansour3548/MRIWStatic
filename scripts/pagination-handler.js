@@ -21,22 +21,42 @@ AFRAME.registerComponent('pagination-handler', {
         });
     },
 
-    fetchGitHubFolders: async function () {
-        try {
-            const response = await fetch('http://localhost:5240/api/getGitHubFolders');
-            if (!response.ok) {
-                this.errorText.setAttribute('visible', true);
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const folders = await response.json();
-            console.log("Fetched folders:", folders); // Log the fetched folders
-            return folders;
-        } catch (error) {
-            this.errorText.setAttribute('visible', true);
-            console.error('Error fetching GitHub folders:', error);
-            return [];
-        }
-    },
+/**
+ * Fetches the contents of the root directory of a GitHub repository.
+ * @returns {Promise<Object[]>} - A promise that resolves to an array of folder items.
+ */
+fetchGitHubFolders : async function() {
+    const repoOwner = "ahmedmansour3548";
+    const repoName = "MRInteractiveWallPage";
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents`;
+  
+    try {
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/vnd.github.v3+json',
+          'User-Agent': 'request',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const repoContent = await response.json();
+  
+      // Filter out numbered folders
+      return repoContent.filter(item => {
+        return item.type === 'dir' && !isNaN(parseInt(item.name));
+      }).map(item => ({
+        name: item.name,
+        type: item.type,
+        download_url: item.download_url,
+      }));
+    } catch (error) {
+      console.error('Error fetching GitHub folders:', error);
+      return [];
+    }
+  },
+
+    
 
     nextPage: function () {
         if (this.pageNum < this.totalPages) {

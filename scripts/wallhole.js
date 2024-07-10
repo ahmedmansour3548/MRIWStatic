@@ -6,7 +6,7 @@ AFRAME.registerComponent('virtual-hole', {
 
         // Load gradient texture
         let loader = new THREE.TextureLoader();
-        let texture = loader.load('src/tiles.jpg'); // Use a gradient image that goes from dark to light
+        let texture = loader.load('./assets/effects/tiles.jpg');
 
         // the inside of the hole
         let geometry1 = new THREE.BoxGeometry(2, 2, 5);
@@ -55,6 +55,6 @@ AFRAME.registerComponent('virtual-hole', {
         //this.el.sceneEl.object3D.add(pointLight);
 
         // Enable fog in the scene
-        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 6.5, 11); // Fog color and density
+        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 4, 6.5); // Fog color and density
     }
 });
