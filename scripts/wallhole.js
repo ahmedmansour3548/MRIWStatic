@@ -55,6 +55,6 @@ AFRAME.registerComponent('virtual-hole', {
         //this.el.sceneEl.object3D.add(pointLight);
 
         // Enable fog in the scene
-        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 4, 6.5); // Fog color and density
+        //this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 4, 6.5); // Fog color and density
     }
 });
