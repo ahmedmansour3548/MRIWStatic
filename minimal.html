@@ -1,27 +1,10 @@
-<!-- Augmented Reality on the Web in 10 lines of html! https://github.com/jeromeetienne/ar.js -->
-<script .="./scripts/aframe.min.js"></script>
-<script .="./scripts/aframe-ar.js"></script>
+<script src="./scripts/aframe.min.js"></script>
+<script src="./scripts/aframe-ar.js"></script>
 <body style='margin : 0px; overflow: hidden;'>
-	<a-scene
-        embedded
-        vr-mode-ui="enabled: false"
-        renderer="antialias: false; logarithmicDepthBuffer:true"
-        arjs="sourceType: webcam; patternRatio: 0.75; debugUIEnabled: true;"
-      >
-
-        <a-marker
-          type="pattern"
-          url="./assets/pattern/logo.patt"
-          id="centerMarker"
-        >
-		<a-box
-                id="labMemberNumberBox"
-                visible="true"
-                position="0 0 0"
-                scale="1.6 0.7 0.5"
-                rotation="0 0 0"
-                material="color: #191919; opacity: 1;"
-              />
+	<a-scene embedded arjs renderer='precision: medium;'>
+		<a-marker preset="hiro">
+			<a-cone position='0 0.5 0' rotation="0 0 0" radius-bottom="0.5" material='opacity: 0.75; color: red;'></a-cone>
 		</a-marker>
+		<a-entity camera></a-entity>
 	</a-scene>
 </body>
