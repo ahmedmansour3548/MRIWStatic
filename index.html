@@ -83,8 +83,7 @@
                 </a-entity>
 
                 <a-entity id="centerEntity" position="0 -2 0" scale="0.2 0.2 0.2" rotation="-90 0 0" />
-                <a-entity id="room" name="virtualroom" position="0 -5.1 -0.59" scale="1 0.53 2" rotation="-90 0 0"
-                    >
+                <a-entity id="room" name="virtualroom" position="0 -5.1 -0.59" scale="1 0.53 2" rotation="-90 0 0">
                     <a-troika-text id="virtual-room-number" position="-0.45 -1 0.06" value="" color="white"
                         font-size="0.5" align="center" line-height="1" max-width="8"
                         font="./assets/fonts/PixelDigivolveItalic.otf" />
@@ -113,15 +112,13 @@
                 <a-plane id="right-arrow-button" gltf-model="./assets/door/right/DoorV5RightPanelButton.glb" class=""
                     visible="false" emitevents="true" position="0.53 0.01 -0.325" rotation="-90 0 0"
                     scale="0.49 0.46 0.49" />
-                <a-plane id="right-arrow-container"
-                    gltf-model="./assets/door/right/DoorV5RightPanelArrowContainer.glb" visible="false"
-                    position="0.525 0 -0.255" rotation="90 0 0" scale="0.4 0.4 0.2" />
+                <a-plane id="right-arrow-container" gltf-model="./assets/door/right/DoorV5RightPanelArrowContainer.glb"
+                    visible="false" position="0.525 0 -0.255" rotation="90 0 0" scale="0.4 0.4 0.2" />
                 <a-plane id="right-arrow" gltf-model="./assets/door/right/DoorV5RightPanelButtonArrow.glb"
                     visible="false" position="0.505 0 -0.25" rotation="90 0 0" scale="0.5 0.5 0.2" />
                 <a-entity>
-                    <a-entity id="top-quotes" visible="false"
-                        gltf-model="./assets/door/right/DoorRightPanelQuotes.glb" position="0.6 0.01 -0.5"
-                        rotation="0 180 0" scale="0.08 0.08 0.08" />
+                    <a-entity id="top-quotes" visible="false" gltf-model="./assets/door/right/DoorRightPanelQuotes.glb"
+                        position="0.6 0.01 -0.5" rotation="0 180 0" scale="0.08 0.08 0.08" />
                     <a-box id="right-note-box" visible="false" position="0.76 0.01 -0.1" scale="0.015 0.05 0.55"
                         rotation="0 90 0" material="color: #121212; opacity: 1;" />
                     <a-troika-text id="lab-member-note" value="" position="0.8 0.01 -0.33" scale="1 1 1"
@@ -170,6 +167,112 @@
                     </a-troika-text>
                 </a-entity>
             </a-entity>
+            <a-entity id="smoke" rotation="180 0 0" position="0 -2.5 0.3" particle-system="
+              enabled: false;
+              preset: snow;
+              texture: src/assets/effects/smoke4.png;
+              size: 2.5;
+              velocityValue: 0 1 0;
+              velocitySpread: 2 0.5 0;
+              positionSpread: 0.5 0 0.3;
+              accelerationValue: 0 -0.1 0;
+              accelerationSpread: 0 0 0;
+              rotationAngleSpread: 0.1;
+              maxAge: 5;
+              particleCount: 5000;
+              opacity: 0.003;
+              blending: 2;" />
+            <a-entity>
+                <a-entity id="smokeblast-1" rotation="0 -10 90" position="-0.41 -0.08 0.2" particle-system="
+                enabled: false;
+                preset: snow;
+                texture: src/assets/effects/smoke4.png;
+                size: 0.5;
+                velocityValue: 0 10 0;
+                velocitySpread: 0 0 0;
+                positionSpread: 0 0 0;
+                accelerationValue: 0 10 0;
+                accelerationSpread: 0 0 0;
+                rotationAngleSpread: 0.3;
+                maxAge: 0.035;
+                particleCount: 3000;
+                opacity: 0.003;
+                blending: 2;" />
+                <a-entity id="smokeblast-2" rotation="0 -10 90" position="-0.41 -0.08 -0.1" particle-system="
+                enabled: false;
+                preset: snow;
+                texture: src/assets/effects/smoke4.png;
+                size: 0.5;
+                velocityValue: 0 10 0;
+                velocitySpread: 0 0 0;
+                positionSpread: 0 0 0;
+                accelerationValue: 0 10 0;
+                accelerationSpread: 0 0 0;
+                rotationAngleSpread: 0.3;
+                maxAge: 0.035;
+                particleCount: 3000;
+                opacity: 0.003;
+                blending: 2;" />
+                <a-entity id="smokeblast-3" rotation="0 -10 90" position="-0.41 -0.08 -0.4" particle-system="
+                enabled: false;
+                preset: snow;
+                texture: src/assets/effects/smoke4.png;
+                size: 0.5;
+                velocityValue: 0 10 0;
+                velocitySpread: 0 0 0;
+                positionSpread: 0 0 0;
+                accelerationValue: 0 10 0;
+                accelerationSpread: 0 0 0;
+                rotationAngleSpread: 0.3;
+                maxAge: 0.035;
+                particleCount: 3000;
+                opacity: 0.003;
+                blending: 2;" />
+                <a-entity id="smokeblast-4" rotation="0 10 -90" position="0.41 -0.08 0.2" particle-system="
+                enabled: false;
+                preset: snow;
+                texture: src/assets/effects/smoke4.png;
+                size: 0.5;
+                velocityValue: 0 10 0;
+                velocitySpread: 0 0 0;
+                positionSpread: 0 0 0;
+                accelerationValue: 0 10 0;
+                accelerationSpread: 0 0 0;
+                rotationAngleSpread: 0.3;
+                maxAge: 0.035;
+                particleCount: 3000;
+                opacity: 0.003;
+                blending: 2;" />
+                <a-entity id="smokeblast-5" rotation="0 10 -90" position="0.41 -0.08 -0.1" particle-system="
+                enabled: false;
+                preset: snow;
+                texture: src/assets/effects/smoke4.png;
+                size: 0.5;
+                velocityValue: 0 10 0;
+                velocitySpread: 0 0 0;
+                positionSpread: 0 0 0;
+                accelerationValue: 0 10 0;
+                accelerationSpread: 0 0 0;
+                rotationAngleSpread: 0.3;
+                maxAge: 0.035;
+                particleCount: 3000;
+                opacity: 0.003;
+                blending: 2;" />
+                <a-entity id="smokeblast-6" rotation="0 10 -90" position="0.41 -0.08 -0.4" particle-system="
+                enabled: false;
+                preset: snow;
+                texture: src/assets/effects/smoke4.png;
+                size: 0.5;
+                velocityValue: 0 10 0;
+                velocitySpread: 0 0 0;
+                positionSpread: 0 0 0;
+                accelerationValue: 0 10 0;
+                accelerationSpread: 0 0 0;
+                rotationAngleSpread: 0.3;
+                maxAge: 0.035;
+                particleCount: 3000;
+                opacity: 0.003;
+                blending: 2;" />
             </a-entity>
         </a-marker>
         <a-camera position="0 0 0" cursor="fuse: false; rayOrigin:mouse;" raycaster="objects:.clickable"
