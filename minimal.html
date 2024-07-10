@@ -1,7 +1,6 @@
 <!-- Augmented Reality on the Web in 10 lines of html! https://github.com/jeromeetienne/ar.js -->
 <script .="./scripts/aframe.min.js"></script>
 <script .="./scripts/aframe-ar.js"></script>
-<script .="./scripts/aframe-troika-text.js"></script>
 <body style='margin : 0px; overflow: hidden;'>
 	<a-scene
         embedded
@@ -9,13 +8,6 @@
         renderer="antialias: false; logarithmicDepthBuffer:true"
         arjs="sourceType: webcam; patternRatio: 0.75; debugUIEnabled: true;"
       >
-        <a-assets>
-          <img id="linkIcon" .="./images/externalLink.svg"></img>
-          <img id="pauseIcon" .="./images/pause.svg"></img>
-          <img id="playIcon" .="./images/play.svg"></img>
-          <img id="returnIcon" .="./images/return.svg"></img>
-          <a-mixin id="giant" scale="5 5 5"></a-mixin>
-        </a-assets>
 
         <a-marker
           type="pattern"
