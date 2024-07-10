@@ -1,6 +1,8 @@
 <script src="./scripts/aframe.min.js"></script>
 <script src="./scripts/aframe-ar.js"></script>
 <script src="./scripts/aframe-troika-text.js"></script>
+
+<script src="./scripts/events.js"></script>
 <body style='margin : 0px; overflow: hidden;'>
 	<a-scene embedded vr-mode-ui="enabled: false" renderer="antialias: false; logarithmicDepthBuffer:true" arjs="sourceType: webcam; patternRatio: 0.75; debugUIEnabled: true;">
 		<a-marker type="pattern" url="./assets/pattern/logo.patt" id="centerMarker">
@@ -87,6 +89,12 @@
             </a-entity>
 			</a-entity>
 		</a-marker>
-		<a-entity camera></a-entity>
+		<a-camera
+	          position="0 0 0"
+	          cursor="fuse: false; rayOrigin:mouse;"
+	          raycaster="objects:.clickable"
+	          look-controls="enabled: false"
+	          click-listener
+	        ></a-camera>
 	</a-scene>
 </body>
