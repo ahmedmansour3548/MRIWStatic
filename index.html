@@ -16,18 +16,18 @@
 			<img id="returnIcon" src="./images/return.svg"></img>
 			<a-mixin id="giant" scale="5 5 5"></a-mixin>
 		</a-assets>
-		<a-marker type="pattern" url="./assets/pattern/logo.patt" id="centerMarker" smooth='true'>
-			<a-entity scale="3 3 3">
+		<a-marker type="pattern" url="./assets/pattern/logo.patt" id="centerMarker">
+			<a-entity scale="1 1 1" >
 
-
+				</a-plane>
 				<!-- Left Panel -->
 				<a-entity id="leftPanel">
-					<a-plane gltf-model="./assets/door/left/DoorV5LeftPanel.glb" position="-0.7 -0.1 -0.25"
+					<!-- <a-plane gltf-model="./assets/door/left/DoorV5LeftPanel.glb" position="-0.7 -0.1 -0.25"
 						rotation="90 0 0" scale="0.5 0.5 0.5">
 					</a-plane>
 					<a-plane gltf-model="./assets/door/left/DoorV5LeftPanelFrame.glb" position="-0.7 -0.1 -0.25"
 						rotation="90 0 0" scale="0.5 0.5 0.5">
-					</a-plane>
+					</a-plane> -->
 					<a-box id="left-line-divider" visible="true" position="-0.8 0.01 -0.35" scale="0.015 0.05 0.45"
 						rotation="0 90 0" material="color: #1A1A1A; opacity: 1;">
 					</a-box>
@@ -291,12 +291,12 @@
 							</a-troika-text>
 						</a-plane>
 					</a-entity>
-					<a-plane id="labMemberInfoPlane" gltf-model="./assets/door/right/DoorV5RightPanel.glb"
+					<!-- <a-plane id="labMemberInfoPlane" gltf-model="./assets/door/right/DoorV5RightPanel.glb"
 						position="0.7 -0.1 -0.25" rotation="90 0 0" scale="0.5 0.5 0.5" visible="true">
 					</a-plane>
 					<a-plane gltf-model="./assets/door/right/DoorV5RightPanelFrame.glb" position="0.7 -0.07 -0.25"
 						rotation="90 0 0" scale="0.5 0.5 0.5">
-					</a-plane>
+					</a-plane> -->
 					<a-plane id="right-arrow-button" gltf-model="./assets/door/right/DoorV5RightPanelButton.glb"
 						class="" visible="false" emitevents="true" position="0.53 0.01 -0.325" rotation="-90 0 0"
 						scale="0.49 0.46 0.49">
@@ -485,7 +485,7 @@
 				</a-entity>
 			</a-entity>
 		</a-marker>
-		<a-camera position="0 0 0" cursor="fuse: false; rayOrigin:mouse;" raycaster="objects:.clickable"
+		<a-camera id="camera" position="0 0 0" cursor="fuse: false; rayOrigin:mouse;" raycaster="objects:.clickable"
 			look-controls="enabled: false" click-listener>
 		</a-camera>
 	</a-scene>
