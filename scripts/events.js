@@ -25,6 +25,7 @@ AFRAME.registerComponent('click-listener', {
         this.labMemberYearsActive = this.el.sceneEl.querySelector('#lab-member-years-active');
         this.labMemberStartYear = this.el.sceneEl.querySelector('#lab-member-start-year');
         this.labMemberEndYear = this.el.sceneEl.querySelector('#lab-member-end-year');
+        this.modelCredit = this.el.sceneEl.querySelector('#model-credit');
         this.virtualRoomNumber = this.el.sceneEl.querySelector('#virtual-room-number');
         this.leftArrowButton = this.el.sceneEl.querySelector('#left-arrow-button');
         this.leftArrowContainer = this.el.sceneEl.querySelector('#left-arrow-container');
@@ -59,6 +60,7 @@ AFRAME.registerComponent('click-listener', {
         this.smokeEmitter = this.el.sceneEl.querySelector('#smoke').components['particle-system'];
         const smokeBlasters = Array.from(this.el.sceneEl.querySelectorAll('[id^="smokeblast"]'));
         this.smokeBlastersArray = [];
+        this.animationNum = 0;
         smokeBlasters.forEach(entity => {
             const particleSystemComponent = entity.components['particle-system'];
             if (particleSystemComponent) {
@@ -703,6 +705,8 @@ AFRAME.registerComponent('click-listener', {
         // Track the current lab member
         this.currentLabMember = markerID;
         this.labMemberNote.setAttribute("value", '');
+        this.modelCredit.setAttribute("value", '');
+        this.animationNum = 0;
         // Based on the button, get the ID of the marker and set the gltf attribute of the center marker to the model
         if (markerID) {
             // Fetch the model and JSON file URLs
@@ -777,6 +781,15 @@ AFRAME.registerComponent('click-listener', {
                             this.memberURL = jsonData.member.link;
                         }
 
+                        // If lab member included an animation index
+                        if (jsonData.model.animationIndex) {
+                            this.animationNum = parseInt(jsonData.model.animationIndex);
+                        }
+                        
+                        // If model must be credited
+                        if (jsonData.model.credit) {
+                            this.modelCredit.setAttribute("value", jsonData.model.credit);
+                        }
                         // Check for animations in the loaded model
                         this.centerEntity.addEventListener('model-loaded', () => {
                             const model = this.centerEntity.getObject3D('mesh');
@@ -786,8 +799,8 @@ AFRAME.registerComponent('click-listener', {
                                 this.mixer = new THREE.AnimationMixer(model);
                                 this.clips = model.animations;
 
-                                // Play the first animation by default
-                                this.currentClip = this.mixer.clipAction(this.clips[0]);
+                                // Play the animation
+                                this.currentClip = this.mixer.clipAction(this.clips[this.animationNum]);
                                 this.currentClip.play();
 
                                 // Update the animation on each frame
@@ -817,7 +830,8 @@ AFRAME.registerComponent('click-listener', {
                             this.labMemberEndYear.setAttribute("value", jsonData.member.endYear == null ? "Present" : jsonData.member.endYear);
                             //this.writeText(this.labMemberNote, jsonData.member.note, 10);
                             this.virtualRoomNumber.setAttribute("value", jsonData.member.labID);
-
+                            
+                            
                             // Now that the model and info are ready, open the doors and display the model
                             this.isDoorAnimating = true;
                             this.openDoors(() => {
