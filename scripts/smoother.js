@@ -13,9 +13,10 @@ AFRAME.registerComponent("smoother", {
          //this.target.object3D.rotation.setFromVector3(rot)
        } else {
          this.target.setAttribute('position', this.el.getAttribute('position'))
-         this.target.setAttribute('rotation', this.el.getAttribute('rotation'))
+         
        }
        this.prevPosition = this.el.object3D.position
+        this.target.setAttribute('rotation', this.el.getAttribute('rotation'))
        this.prevRotation = this.el.object3D.rotation
 
       } else {
