@@ -90,7 +90,7 @@ AFRAME.registerComponent('click-listener', {
 
         // Model Entering
         this.modelEnterDuration = 1000; // Duration of entering animation (Default: 1000)
-        this.modelEnterPosition = 1; // Final y position of model upon entering (Default: 1)
+        this.modelEnterPosition = 0.3; // Final y position of model upon entering (Default: 0.3)
         this.modelEnterDelay = 25; // Duration of delay between doors opening and model movement (Default: 25)
         this.modelEnterEasing = 'easeInOutQuad'; // Easing (Default: 'easeInOutQuad')
 
