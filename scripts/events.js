@@ -702,7 +702,7 @@ AFRAME.registerComponent('click-listener', {
     viewLabMember: function (markerID) {
         // Track the current lab member
         this.currentLabMember = markerID;
-
+        this.labMemberNote.setAttribute("value", '');
         // Based on the button, get the ID of the marker and set the gltf attribute of the center marker to the model
         if (markerID) {
             // Fetch the model and JSON file URLs
@@ -804,7 +804,6 @@ AFRAME.registerComponent('click-listener', {
                             this.hideRightPanelButtons();
                             this.setPanelButtons();
                             this.resetModelAnimation();
-                            console.log(jsonData.member);
                             // Set the value of the text attributes to the extracted information
                             // Dynamically set the font size depending on character length
                             this.labMemberNote.setAttribute("font-size",
