@@ -22,6 +22,9 @@ AFRAME.registerComponent('click-listener', {
         this.labMemberName = this.el.sceneEl.querySelector('#lab-member-name');
         this.labMemberRole = this.el.sceneEl.querySelector('#lab-member-role');
         this.labMemberNote = this.el.sceneEl.querySelector('#lab-member-note');
+        this.labMemberYearsActive = this.el.sceneEl.querySelector('#lab-member-years-active');
+        this.labMemberStartYear = this.el.sceneEl.querySelector('#lab-member-start-year');
+        this.labMemberEndYear = this.el.sceneEl.querySelector('#lab-member-end-year');
         this.virtualRoomNumber = this.el.sceneEl.querySelector('#virtual-room-number');
         this.leftArrowButton = this.el.sceneEl.querySelector('#left-arrow-button');
         this.leftArrowContainer = this.el.sceneEl.querySelector('#left-arrow-container');
@@ -41,6 +44,8 @@ AFRAME.registerComponent('click-listener', {
         this.leftLineDivider = this.el.sceneEl.querySelector('#left-line-divider');
         this.rightNoteBox = this.el.sceneEl.querySelector('#right-note-box');
         this.labMemberNumberBox = this.el.sceneEl.querySelector('#labMemberNumberBox');
+        this.labMemberYearsBox = this.el.sceneEl.querySelector('#labMemberYearsBox');
+        this.labMemberYearDash = this.el.sceneEl.querySelector('#labMemberYearDash');
         this.rightPanelBottomLeftButton = this.el.sceneEl.querySelector('#right-panel-bottom-left-button');
         this.rightPanelBottomLeftButtonText = this.el.sceneEl.querySelector('#right-panel-bottom-left-button-text');
         this.rightPanelBottomLeftButtonIcon = this.el.sceneEl.querySelector('#right-panel-bottom-left-button-icon');
@@ -49,6 +54,7 @@ AFRAME.registerComponent('click-listener', {
         this.rightPanelBottomLinkButton = this.el.sceneEl.querySelector('#right-panel-bottom-link-button');
         this.rightPanelBottomAnimationButtonText = this.el.sceneEl.querySelector('#right-panel-bottom-animation-button-text');
         this.rightPanelBottomAnimationButtonIcon = this.el.sceneEl.querySelector('#right-panel-bottom-animation-button-icon');
+        this.marker = this.el.sceneEl.querySelector('#centerMarker');
         this.errorText = document.querySelector('#error-text');
         this.smokeEmitter = this.el.sceneEl.querySelector('#smoke').components['particle-system'];
         const smokeBlasters = Array.from(this.el.sceneEl.querySelectorAll('[id^="smokeblast"]'));
@@ -60,6 +66,9 @@ AFRAME.registerComponent('click-listener', {
             }
         });
 
+        console.log(this.marker.object3D.position.z);
+        // Enable fog in the scene
+        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 9, 15); // Fog color and density
         // Tracking Variables
         this.doorsOpen = false; // Current state of doors
         this.modelURL = null; // Path to model url (.gltf or .glb)
@@ -90,7 +99,7 @@ AFRAME.registerComponent('click-listener', {
 
         // Model Entering
         this.modelEnterDuration = 1000; // Duration of entering animation (Default: 1000)
-        this.modelEnterPosition = 0.3; // Final y position of model upon entering (Default: 0.3)
+        this.modelEnterPosition = 0.3; // Final y position of model upon entering (Default: 0.25)
         this.modelEnterDelay = 25; // Duration of delay between doors opening and model movement (Default: 25)
         this.modelEnterEasing = 'easeInOutQuad'; // Easing (Default: 'easeInOutQuad')
 
@@ -140,7 +149,6 @@ AFRAME.registerComponent('click-listener', {
         this.loadLabMembers = this.loadLabMembers.bind(this);
         this.showLabMember = this.showLabMember.bind(this);
     },
-
     fetchGitHubFolders: async function () {
         const repoOwner = "ahmedmansour3548";
         const repoName = "MRInteractiveWallPage";
@@ -495,7 +503,10 @@ AFRAME.registerComponent('click-listener', {
         this.topQuotes.setAttribute('visible', true);
         this.bottomQuotes.setAttribute('visible', true);
         this.labMemberNumberBox.setAttribute('visible', true);
-        this.leftArrow.setAttribute('visible', true);
+        this.labMemberYearsBox.setAttribute('visible', true);
+        this.labMemberYearDash.setAttribute('visible', true);
+        this.labMemberYearDash.setAttribute('visible', true);
+        this.labMemberYearsActive.setAttribute('visible', true);
         this.leftArrow.setAttribute('visible', true);
         this.leftArrowButton.setAttribute('class', 'clickable');
         this.leftArrowContainer.setAttribute('visible', true);
@@ -512,6 +523,9 @@ AFRAME.registerComponent('click-listener', {
         this.topQuotes.setAttribute('visible', false);
         this.bottomQuotes.setAttribute('visible', false);
         this.labMemberNumberBox.setAttribute('visible', false);
+        this.labMemberYearsBox.setAttribute('visible', false);
+        this.labMemberYearDash.setAttribute('visible', false);
+        this.labMemberYearsActive.setAttribute('visible', false);
         this.leftArrow.setAttribute('visible', false);
         this.leftArrowButton.setAttribute('class', '');
         this.leftArrowContainer.setAttribute('visible', false);
@@ -536,6 +550,8 @@ AFRAME.registerComponent('click-listener', {
         this.labMemberName.setAttribute("value", '');
         this.labMemberRole.setAttribute("value", '');
         this.labMemberNote.setAttribute("value", '');
+        this.labMemberStartYear.setAttribute("value", '');
+        this.labMemberEndYear.setAttribute("value", '');
     },
 
     setPanelButtons: function () {
@@ -689,7 +705,6 @@ AFRAME.registerComponent('click-listener', {
 
         // Based on the button, get the ID of the marker and set the gltf attribute of the center marker to the model
         if (markerID) {
-            console.log("markerID: " + markerID);
             // Fetch the model and JSON file URLs
             this.fetchGitHubModel(markerID).then((data) => {
                 if (!data.modelUrl || !data.jsonUrl) {
@@ -789,6 +804,7 @@ AFRAME.registerComponent('click-listener', {
                             this.hideRightPanelButtons();
                             this.setPanelButtons();
                             this.resetModelAnimation();
+                            console.log(jsonData.member);
                             // Set the value of the text attributes to the extracted information
                             // Dynamically set the font size depending on character length
                             this.labMemberNote.setAttribute("font-size",
@@ -797,8 +813,10 @@ AFRAME.registerComponent('click-listener', {
                             this.labMemberNumber.setAttribute("value", jsonData.member.labID);
                             this.labMemberName.setAttribute("value", jsonData.member.name);
                             this.labMemberRole.setAttribute("value", jsonData.member.role);
-                            //this.labMemberNote.setAttribute("value", jsonData.member.note);
-                            this.writeText(this.labMemberNote, jsonData.member.note, 10);
+                            this.labMemberNote.setAttribute("value", jsonData.member.note);
+                            this.labMemberStartYear.setAttribute("value", jsonData.member.startYear  == null ? "2024" : jsonData.member.startYear);
+                            this.labMemberEndYear.setAttribute("value", jsonData.member.endYear == null ? "Present" : jsonData.member.endYear);
+                            //this.writeText(this.labMemberNote, jsonData.member.note, 10);
                             this.virtualRoomNumber.setAttribute("value", jsonData.member.labID);
 
                             // Now that the model and info are ready, open the doors and display the model
