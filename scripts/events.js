@@ -68,9 +68,8 @@ AFRAME.registerComponent('click-listener', {
             }
         });
 
-        console.log(this.marker.object3D.position.z);
         // Enable fog in the scene
-        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 9, 15); // Fog color and density
+        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 13, 18); // Fog color and density
         // Tracking Variables
         this.doorsOpen = false; // Current state of doors
         this.modelURL = null; // Path to model url (.gltf or .glb)
@@ -528,6 +527,7 @@ AFRAME.registerComponent('click-listener', {
         this.labMemberYearsBox.setAttribute('visible', false);
         this.labMemberYearDash.setAttribute('visible', false);
         this.labMemberYearsActive.setAttribute('visible', false);
+        this.modelCredit.setAttribute('value', '');
         this.leftArrow.setAttribute('visible', false);
         this.leftArrowButton.setAttribute('class', '');
         this.leftArrowContainer.setAttribute('visible', false);
