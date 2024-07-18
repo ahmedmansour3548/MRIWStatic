@@ -69,7 +69,7 @@ AFRAME.registerComponent('click-listener', {
         });
 
         // Enable fog in the scene
-        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 15, 20); // Fog color and density
+        this.el.sceneEl.object3D.fog = new THREE.Fog(0x000000, 18, 22); // Fog color and density
         // Tracking Variables
         this.doorsOpen = false; // Current state of doors
         this.modelURL = null; // Path to model url (.gltf or .glb)
