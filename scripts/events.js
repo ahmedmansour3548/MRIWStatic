@@ -204,7 +204,7 @@ AFRAME.registerComponent("click-listener", {
   },
 
   fetchLocalContent: async function () {
-    const metadataUrl = '/assets/content/metadata.json';
+    const metadataUrl = './assets/content/metadata.json';
 
     try {
         // Fetch metadata.json to get the number of members
@@ -233,7 +233,7 @@ AFRAME.registerComponent("click-listener", {
 },
 
 fetchFolderContent: async function (folderName) {
-  const folderPath = `/assets/content/${folderName}`;
+  const folderPath = `./assets/content/${folderName}`;
   const paramFilePath = `${folderPath}/param.json`;
 
   try {
@@ -249,7 +249,7 @@ fetchFolderContent: async function (folderName) {
       const audioFileName = paramData.member.audioFile;
 
       // Construct the full URLs for the model and audio files
-      const modelFileUrl = modelFileName ? `${folderPath}/${modelFileName}` : `/assets/content/${folderName}/model.glb`;
+      const modelFileUrl = modelFileName ? `${folderPath}/${modelFileName}` : `./assets/content/${folderName}/model.glb`;
       const audioFileUrl = audioFileName ? `${folderPath}/${audioFileName}` : null;
 
       return {
