@@ -8,6 +8,7 @@
 	},
 	"model" :
 	{
+		"modelFile": "shibahu.glb",
 		"scale" : "0.1 0.1 0.1"
 	}
 	
