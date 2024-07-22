@@ -1,0 +1,15 @@
+{
+	"member" :
+	{
+		"name" : "Michael Scott",
+		"labID" : "013",
+		"role" : "Regional Manager",
+		"note" : "I'm not superstitious... but I am little stitious."
+	},
+	"model" :
+	{
+		"scale" : "0.1 0.1 0.1"
+	}
+	
+	
+}

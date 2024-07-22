@@ -1,0 +1,15 @@
+{
+	"member" :
+	{
+		"name" : "Spongebob Squarepants",
+		"labID" : "008",
+		"role" : "Fry Cook",
+		"note" : "I'm REAAAAADY!"
+	},
+	"model" :
+	{
+		"scale" : "0.1 0.1 0.1"
+	}
+	
+	
+}

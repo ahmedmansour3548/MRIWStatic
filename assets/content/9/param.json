@@ -1,0 +1,15 @@
+{
+	"member" :
+	{
+		"name" : "Patrick Star",
+		"labID" : "009",
+		"role" : "Nothing",
+		"note" : "He She Me, Wumbo"
+	},
+	"model" :
+	{
+		"scale" : "0.1 0.1 0.1"
+	}
+	
+	
+}

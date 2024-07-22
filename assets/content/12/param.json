@@ -1,0 +1,15 @@
+{
+	"member" :
+	{
+		"name" : "Jim Halpert",
+		"labID" : "012",
+		"role" : "Salesman",
+		"note" : "0_0"
+	},
+	"model" :
+	{
+		"scale" : "0.1 0.1 0.1"
+	}
+	
+	
+}

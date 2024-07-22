@@ -1,0 +1,15 @@
+{
+	"member" :
+	{
+		"name" : "Eugene Krabs",
+		"labID" : "011",
+		"role" : "Manager",
+		"note" : "Money!"
+	},
+	"model" :
+	{
+		"scale" : "0.1 0.1 0.1"
+	}
+	
+	
+}
