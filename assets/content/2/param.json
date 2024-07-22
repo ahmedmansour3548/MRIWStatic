@@ -10,6 +10,7 @@
 	},
 	"model" :
 	{
+		"modelFile": "robot.glb",
 		"position" : "0 -2 0.5",
 		"scale" : "0.4 0.4 0.4",
 		"animationIndex" : "2"
