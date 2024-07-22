@@ -8,6 +8,7 @@
 	},
 	"model" :
 	{
+		"modelFile": "toaster.glb",
 		"scale" : "0.1 0.1 0.1"
 	}
 	
