@@ -247,7 +247,8 @@ fetchFolderContent: async function (folderName) {
       // Extract the audio and model file names from param.json
       const modelFileName = paramData.model.modelFile;
       const audioFileName = paramData.member.audioFile;
-
+    console.log(paramData);
+      console.log(modelFileName);
       // Construct the full URLs for the model and audio files
       const modelFileUrl = modelFileName ? `${folderPath}/${modelFileName}` : `./assets/content/${folderName}/model.glb`;
       const audioFileUrl = audioFileName ? `${folderPath}/${audioFileName}` : null;
