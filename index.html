@@ -17,12 +17,13 @@
 			<img id="returnIcon" src="./images/return.svg"></img>
 			<a-mixin id="giant" scale="5 5 5"></a-mixin>
 		</a-assets>
+		
 		<a-marker type="pattern" url="./assets/pattern/logo65.patt" id="centerMarker" smooth="true" smooth-tolerance="0.15" smooth-count="10" smooth-threshold="2">
 			<a-entity scale="4 4 4" position="0 0 0.5">
 
 				</a-plane>
 				<!-- Left Panel -->
-				<a-entity id="leftPanel">
+				<a-entity id="left-panel">
 					<a-plane gltf-model="./assets/door/left/DoorV5LeftPanel.glb" position="-0.7 -0.1 -0.25"
 						rotation="90 0 0" scale="0.5 0.5 0.5">
 					</a-plane>
@@ -35,10 +36,10 @@
 
 					<!-- Buttons -->
 					<a-entity>
-						<a-plane id="frame-ID-1" gltf-model="./assets/door/ButtonFrame.glb" position="-0.95 0 -0.45"
+						<a-plane id="frame-ID-1" gltf-model="./assets/door/ButtonFrame.glb" position="-0.95 -0.07 -0.45"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-1" class="clickable" emitevents="true" position="-0.95 0 -0.45"
+						<a-plane id="ID-1" class="clickable" emitevents="true" position="-0.95 -0.07 -0.45"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-1" position="0 0.05 0.01" scale="2 3.33 1" value="001" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -48,10 +49,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-2" gltf-model="./assets/door/ButtonFrame.glb" position="-0.8 0 -0.45"
+						<a-plane id="frame-ID-2" gltf-model="./assets/door/ButtonFrame.glb" position="-0.8 -0.07 -0.45"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-2" class="clickable" emitevents="true" position="-0.8 0 -0.45"
+						<a-plane id="ID-2" class="clickable" emitevents="true" position="-0.8 -0.07 -0.45"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-2" position="0 0.05 0.01" scale="2 3.33 1" value="002" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -61,10 +62,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-3" gltf-model="./assets/door/ButtonFrame.glb" position="-0.65 0 -0.45"
+						<a-plane id="frame-ID-3" gltf-model="./assets/door/ButtonFrame.glb" position="-0.65 -0.07 -0.45"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-3" class="clickable" emitevents="true" position="-0.65 0 -0.45"
+						<a-plane id="ID-3" class="clickable" emitevents="true" position="-0.65 -0.07 -0.45"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-3" position="0 0.05 0.01" scale="2 3.33 1" value="003" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -74,10 +75,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-4" gltf-model="./assets/door/ButtonFrame.glb" position="0.65 0 -0.45"
+						<a-plane id="frame-ID-4" gltf-model="./assets/door/ButtonFrame.glb" position="0.65 -0.07 -0.45"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-4" class="clickable" emitevents="true" position="0.65 0 -0.45"
+						<a-plane id="ID-4" class="clickable" emitevents="true" position="0.65 -0.07 -0.45"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-4" position="0 0.05 0.01" scale="2 3.33 1" value="004" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -87,10 +88,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-5" gltf-model="./assets/door/ButtonFrame.glb" position="0.8 0 -0.45"
+						<a-plane id="frame-ID-5" gltf-model="./assets/door/ButtonFrame.glb" position="0.8 -0.07 -0.45"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-5" class="clickable" emitevents="true" position="0.8 0 -0.45"
+						<a-plane id="ID-5" class="clickable" emitevents="true" position="0.8 -0.07 -0.45"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-5" position="0 0.05 0.01" scale="2 3.33 1" value="005" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -100,10 +101,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-6" gltf-model="./assets/door/ButtonFrame.glb" position="0.95 0 -0.45"
+						<a-plane id="frame-ID-6" gltf-model="./assets/door/ButtonFrame.glb" position="0.95 -0.07 -0.45"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-6" class="clickable" emitevents="true" position="0.95 0 -0.45"
+						<a-plane id="ID-6" class="clickable" emitevents="true" position="0.95 -0.07 -0.45"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-6" position="0 0.05 0.01" scale="2 3.33 1" value="006" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -113,10 +114,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-7" gltf-model="./assets/door/ButtonFrame.glb" position="-0.95 0 -0.25"
+						<a-plane id="frame-ID-7" gltf-model="./assets/door/ButtonFrame.glb" position="-0.95 -0.07 -0.25"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-7" class="clickable" emitevents="true" position="-0.95 0 -0.25"
+						<a-plane id="ID-7" class="clickable" emitevents="true" position="-0.95 -0.07 -0.25"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-7" position="0 0.05 0.01" scale="2 3.33 1" value="007" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -126,9 +127,9 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-8" gltf-model="./assets/door/ButtonFrame.glb" position="-0.8 0 -0.25"
+						<a-plane id="frame-ID-8" gltf-model="./assets/door/ButtonFrame.glb" position="-0.8 -0.07 -0.25"
 							rotation="0 0 0" scale="0.105 0.105 0.105"></a-plane>
-						<a-plane id="ID-8" class="clickable" emitevents="true" position="-0.8 0 -0.25"
+						<a-plane id="ID-8" class="clickable" emitevents="true" position="-0.8 -0.07 -0.25"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-8" position="0 0.05 0.01" scale="2 3.33 1" value="008" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -138,10 +139,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-9" gltf-model="./assets/door/ButtonFrame.glb" position="-0.65 0 -0.25"
+						<a-plane id="frame-ID-9" gltf-model="./assets/door/ButtonFrame.glb" position="-0.65 -0.07 -0.25"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-9" class="clickable" emitevents="true" position="-0.65 0 -0.25"
+						<a-plane id="ID-9" class="clickable" emitevents="true" position="-0.65 -0.07 -0.25"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-9" position="0 0.05 0.01" scale="2 3.33 1" value="009" color="black"
 								width="2" align="center" wrapCount="15" font-size="0.2"
@@ -151,10 +152,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-10" gltf-model="./assets/door/ButtonFrame.glb" position="0.65 0 -0.25"
+						<a-plane id="frame-ID-10" gltf-model="./assets/door/ButtonFrame.glb" position="0.65 -0.07 -0.25"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-10" class="clickable" emitevents="true" position="0.65 0 -0.25"
+						<a-plane id="ID-10" class="clickable" emitevents="true" position="0.65 -0.07 -0.25"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-10" position="0 0.05 0.01" scale="2 3.33 1" value="010"
 								color="black" width="2" align="center" wrapCount="15" font-size="0.2"
@@ -164,10 +165,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-11" gltf-model="./assets/door/ButtonFrame.glb" position="0.8 0 -0.25"
+						<a-plane id="frame-ID-11" gltf-model="./assets/door/ButtonFrame.glb" position="0.8 -0.07 -0.25"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-11" class="clickable" emitevents="true" position="0.8 0 -0.25"
+						<a-plane id="ID-11" class="clickable" emitevents="true" position="0.8 -0.07 -0.25"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-11" position="0 0.05 0.01" scale="2 3.33 1" value="011"
 								color="black" width="2" align="center" wrapCount="15" font-size="0.2"
@@ -177,10 +178,10 @@
 					</a-entity>
 
 					<a-entity>
-						<a-plane id="frame-ID-12" gltf-model="./assets/door/ButtonFrame.glb" position="0.95 0 -0.25"
+						<a-plane id="frame-ID-12" gltf-model="./assets/door/ButtonFrame.glb" position="0.95 -0.07 -0.25"
 							rotation="0 0 0" scale="0.105 0.105 0.105">
 						</a-plane>
-						<a-plane id="ID-12" class="clickable" emitevents="true" position="0.95 0 -0.25"
+						<a-plane id="ID-12" class="clickable" emitevents="true" position="0.95 -0.07 -0.25"
 							scale="0.108 0.108 1" rotation="-90 0 0" material="color: #FFC904; opacity: 0.6;">
 							<a-troika-text id="text-12" position="0 0.05 0.01" scale="2 3.33 1" value="012"
 								color="black" width="2" align="center" wrapCount="15" font-size="0.2"
@@ -202,7 +203,7 @@
 							visible="false" position="-0.5 -0.06 -0.255" rotation="90 0 0" scale="0.5 0.5 0.2">
 						</a-plane>
 					</a-entity>
-					<a-entity id="previous-page" position="-0.78 0 -0.08" scale="0.2 0.1 0.12">
+					<a-entity id="previous-page" position="-0.78 -0.07 -0.08" scale="0.2 0.1 0.12">
 						<a-plane id="previous-plane-frame" gltf-model="./assets/door/ButtonFrame.glb" visible="false">
 						</a-plane>
 						<a-plane id="previous-plane" class="" emitevents="true" rotation="-90 0 0"
@@ -213,7 +214,7 @@
 							</a-troika-text>
 						</a-plane>
 					</a-entity>
-					<a-entity id="menu" position="-0.68 -0.018 -0.015">
+					<a-entity id="menu" position="-0.69 -0.07 -0.015">
 						<a-entity id="left-panel-menu-button" visible="false" class=""
 							gltf-model="./assets/door/left/DoorV5LeftPanelBottomButton.glb" scale="0.4 0.4 0.1"
 							rotation="90 180 0">
@@ -254,9 +255,9 @@
 							align="center" line-height="1" max-width="8" font="./assets/fonts/JoganSoft-Regular.ttf">
 						</a-troika-text>
 					</a-entity>
-					<a-troika-text id="error-text" visible="false" position="0.1 0 11" rotation="0 90 180" scale="1 1 1"
-						value="An error has occurred. Please contact VARLAB Adminstrators." color="red" max-width="4"
-						line-height="1.2" font-size="0.4" align="center" wrapCount="15">
+					<a-troika-text id="error-text" visible="false" position="-0.75 0 -0.25" rotation="-90 0 0" scale="1 1 1"
+						value="An error has occurred. Please contact VARLAB Adminstrators." color="red" max-width="0.44"
+						line-height="1.2" font-size="0.06" align="center" wrapCount="15" font="./assets/fonts/JoganSoft-Regular.ttf">
 					</a-troika-text>
 				</a-entity>
 
@@ -297,8 +298,8 @@
 				</a-entity>
 
 				<!-- Right Panel -->
-				<a-entity>
-					<a-entity id="next-page" position="0.8 0 -0.08" scale="0.2 0.1 0.12">
+				<a-entity id="right-panel">
+					<a-entity id="next-page" position="0.8 -0.07 -0.08" scale="0.2 0.1 0.12">
 						<a-plane id="next-plane-frame" gltf-model="./assets/door/ButtonFrame.glb" rotation="0 90 0">
 						</a-plane>
 						<a-plane id="next-plane" class="clickable" emitevents="true" rotation="-90 0 0"
@@ -347,7 +348,7 @@
 						</a-troika-text>
 					</a-entity>
 					<a-entity id="right-panel-bottom-animation-button" visible="false" class=""
-						gltf-model="./assets/door/right/DoorV5RightPanelBottomButton.glb" position="0.7 0 -0.015"
+						gltf-model="./assets/door/right/DoorV5RightPanelBottomButton.glb" position="0.7 -0.07 -0.015"
 						rotation="-90 0 0" scale="0.4 0.4 0.1">
 						<a-troika-text id="right-panel-bottom-animation-button-text" position="0.15 0 0.06"
 							rotation="0 0 0" scale="1 1 1" value="Pause Animation" color="black" font-size="0.14"
@@ -358,7 +359,7 @@
 						</a-troika-text>
 					</a-entity>
 					<a-entity id="right-panel-bottom-link-button" visible="false" class=""
-						gltf-model="./assets/door/right/DoorV5RightPanelBottomButton.glb" position="0.7 0 -0.015"
+						gltf-model="./assets/door/right/DoorV5RightPanelBottomButton.glb" position="0.7 -0.07 -0.015"
 						rotation="-90 0 0" scale="0.4 0.4 0.1">
 						<a-troika-text id="right-panel-bottom-link-button-learn-more-text" position="0.15 0 0.06"
 							rotation="0 0 0" scale="1 1 1" value="Learn More" color="black" font-size="0.16"
@@ -368,7 +369,7 @@
 						</a-troika-text>
 					</a-entity>
 					<a-entity id="right-panel-bottom-left-button" visible="false" class=""
-						gltf-model="./assets/door/right/DoorV5RightPanelBottomButtonLeft.glb" position="0.605 0 -0.015"
+						gltf-model="./assets/door/right/DoorV5RightPanelBottomButtonLeft.glb" position="0.605 -0.07 -0.015"
 						rotation="-90 0 0" scale="0.4 0.4 0.1">
 						<a-troika-text id="right-panel-bottom-left-button-text" position="0.05 0.07 0.07"
 							rotation="0 0 0" scale="1 1 1" value="Play Animation" color="black" font-size="0.1"
@@ -379,7 +380,7 @@
 						</a-troika-text>
 					</a-entity>
 					<a-entity id="right-panel-bottom-right-button" visible="false" class=""
-						gltf-model="./assets/door/right/DoorV5RightPanelBottomButtonRight.glb" position="0.915 0 -0.014"
+						gltf-model="./assets/door/right/DoorV5RightPanelBottomButtonRight.glb" position="0.915 -0.07 -0.014"
 						rotation="90 0 0" scale="0.4 0.4 0.2">
 						<a-troika-text id="right-panel-bottom-right-button-learn-more-text" position="0 -0.07 -0.07"
 							rotation="180 0 0" scale="1 1 1" value="Learn More" color="black" font-size="0.1"
