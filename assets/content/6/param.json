@@ -8,6 +8,7 @@
 	},
 	"model" :
 	{
+		"modelFile": "horse_walk.glb",
 		"scale" : "0.015 0.015 0.015"
 	}
 	
