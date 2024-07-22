@@ -1,0 +1,18 @@
+{
+	"member" :
+	{
+		"name" : "Carsten Neumann",
+		"labID" : "001",
+		"role" : "Research Associate",
+		"note" : "QUOTE HERE",
+		"link" : "https://www.linkedin.com/in/ahmedmansour3548",
+		"startYear": "2020"
+	},
+	"model" :
+	{
+		"position" : "0 -2 0.25",
+		"scale" : "0.07 0.07 0.07"
+	}
+	
+	
+}

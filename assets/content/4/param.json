@@ -1,0 +1,18 @@
+{
+	"member" :
+	{
+		"name" : "Ahmed Mansour",
+		"labID" : "004",
+		"role" : "Ph.D Research Assistant",
+		"note" : "There'll be another time...",
+		"link" : "https://www.linkedin.com/in/ahmedmansour3548",
+		"startYear": "2023"
+	},
+	"model" :
+	{
+		"position" : "0 -2 0.25",
+		"scale" : "0.07 0.07 0.07"
+	}
+	
+	
+}

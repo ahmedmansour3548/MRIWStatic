@@ -1,0 +1,19 @@
+{
+	"member" :
+	{
+		"name" : "Berk Cetinsaya",
+		"labID" : "002",
+		"role" : "Graduate Research Assistant",
+		"note" : "I didn't believe in the saying 'great loves start with hatred' until I met compute shaders",
+		"link" : "https://berkcetinsaya.com",
+		"startYear": "2020"
+	},
+	"model" :
+	{
+		"position" : "0 -2 0.5",
+		"scale" : "0.4 0.4 0.4",
+		"animationIndex" : "2"
+	}
+	
+	
+}

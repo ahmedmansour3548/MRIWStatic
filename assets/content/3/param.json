@@ -1,0 +1,18 @@
+{
+	"member" :
+	{
+		"name" : "Jason Ortiz",
+		"labID" : "003",
+		"role" : "Graduate Research Assistant",
+		"note" : "Can I bring my dog?",
+		"link" : "https://www.jasonaortiz.com",
+		"startYear" : "2022"
+	},
+	"model" :
+	{
+		"scale" : "0.4 0.4 0.4",
+		"position" : "0 -2 0.4"
+	}
+	
+	
+}
