@@ -93,10 +93,10 @@ AFRAME.registerComponent("click-listener", {
     this.leftPanelMenuButton = this.el.sceneEl.querySelector(
       "#left-panel-menu-button"
     );
+    this.rain = this.el.sceneEl.querySelector("#rain").components["particle-system"];
     this.topQuotes = this.el.sceneEl.querySelector("#top-quotes");
     this.bottomQuotes = this.el.sceneEl.querySelector("#bottom-quotes");
     this.leftLineDivider = this.el.sceneEl.querySelector("#left-line-divider");
-    this.rightNoteBox = this.el.sceneEl.querySelector("#right-note-box");
     this.labMemberNumberBox = this.el.sceneEl.querySelector(
       "#labMemberNumberBox"
     );
@@ -133,7 +133,12 @@ AFRAME.registerComponent("click-listener", {
     this.smokeEmitter =
       this.el.sceneEl.querySelector("#smoke").components["particle-system"];
     this.animationNum = 0;
-    this.audio = new Audio();
+    this.labMemberAudio = new Audio();
+    this.doorOpenAudio = new Audio('./assets/effects/dooropen.mp3');
+    this.doorCloseAudio = new Audio('./assets/effects/doorclose.mp3');
+    this.doorButtonAudio = new Audio('./assets/effects/doorbutton.mp3');
+    this.secretFoundAudio = new Audio('./assets/effects/secret.mp3');
+
   },
 
   initTrackingVariables: function () {
@@ -153,8 +158,7 @@ AFRAME.registerComponent("click-listener", {
     this.totalButtons = 0;
     this.noteMaximumSize = 0.03; // Largest allowable font size
     this.history = new IDHistory();
-    //this.pi = [3,1,4,1,5];
-    this.pi = [3, 1, 4];
+    this.pi = [3, 1, 4, 1, 5];
     this.euler = [2, 1, 7, 8];
     this.birth = [4, 12, 1, 9, 9, 9];
     // Animation Variables - Modify these to adjust animation timings and positions
@@ -204,7 +208,7 @@ AFRAME.registerComponent("click-listener", {
   },
 
   fetchLocalContent: async function () {
-    const metadataUrl = './assets/content/metadata.json';
+    const metadataUrl = '/assets/content/metadata.json';
 
     try {
         // Fetch metadata.json to get the number of members
@@ -233,7 +237,7 @@ AFRAME.registerComponent("click-listener", {
 },
 
 fetchFolderContent: async function (folderName) {
-  const folderPath = `./assets/content/${folderName}`;
+  const folderPath = `/assets/content/${folderName}`;
   const paramFilePath = `${folderPath}/param.json`;
 
   try {
@@ -247,10 +251,9 @@ fetchFolderContent: async function (folderName) {
       // Extract the audio and model file names from param.json
       const modelFileName = paramData.model.modelFile;
       const audioFileName = paramData.member.audioFile;
-    console.log(paramData);
-      console.log(modelFileName);
+
       // Construct the full URLs for the model and audio files
-      const modelFileUrl = modelFileName ? `${folderPath}/${modelFileName}` : `./assets/content/${folderName}/model.glb`;
+      const modelFileUrl = modelFileName ? `${folderPath}/${modelFileName}` : `/assets/content/${folderName}/model.glb`;
       const audioFileUrl = audioFileName ? `${folderPath}/${audioFileName}` : null;
 
       return {
@@ -485,7 +488,7 @@ fetchFolderContent: async function (folderName) {
     console.log("is Animating? ", this.isDoorAnimating);
     console.log("clicked on" + evt.detail.intersectedEl.id);
     if (this.isDoorAnimating) return;
-
+    this.playDoorButtonAudio();
     switch (evt.detail.intersectedEl.id) {
       case "previous-plane": // Previous Page
         this.highlightButton(evt.detail.intersectedEl);
@@ -519,6 +522,7 @@ fetchFolderContent: async function (folderName) {
           this.currentLabMember = null;
           this.hasAnimation = false;
           this.hasLink = false;
+          this.egg();
         });
         return;
       case "right-panel-bottom-right-button": // Link to Personals
@@ -555,14 +559,13 @@ fetchFolderContent: async function (folderName) {
         // Add a delay before opening doors and displaying model
         setTimeout(() => {
           console.log("viewing lab member at point 1");
+          this.playDoorCloseAudio();
           this.viewLabMember(buttonId);
         }, this.doorReopenPause);
       });
     } else {
-      console.log("Opening doors!");
       // Add a delay before opening doors and displaying model
       setTimeout(() => {
-        console.log("viewing lab member at point 2");
         this.viewLabMember(buttonId);
       }, this.doorOpenPause);
     }
@@ -609,7 +612,6 @@ fetchFolderContent: async function (folderName) {
     this.leftPanelMenuButton.setAttribute("visible", true);
     this.leftPanelMenuButton.setAttribute("class", "clickable");
     this.leftLineDivider.setAttribute("visible", true);
-    this.rightNoteBox.setAttribute("visible", true);
     this.topQuotes.setAttribute("visible", true);
     this.bottomQuotes.setAttribute("visible", true);
     this.labMemberNumberBox.setAttribute("visible", true);
@@ -629,7 +631,6 @@ fetchFolderContent: async function (folderName) {
     this.leftPanelMenuButton.setAttribute("visible", false);
     this.leftPanelMenuButton.setAttribute("class", "");
     this.leftLineDivider.setAttribute("visible", false);
-    this.rightNoteBox.setAttribute("visible", false);
     this.topQuotes.setAttribute("visible", false);
     this.bottomQuotes.setAttribute("visible", false);
     this.labMemberNumberBox.setAttribute("visible", false);
@@ -677,7 +678,7 @@ fetchFolderContent: async function (folderName) {
       this.rightPanelBottomAnimationButton.setAttribute("class", "clickable");
       this.rightPanelBottomAnimationButton.setAttribute("visible", true);
     } else if (this.hasLink) {
-      // Enable only the animation button
+      // Enable only the link button
       this.rightPanelBottomLinkButton.setAttribute("class", "clickable");
       this.rightPanelBottomLinkButton.setAttribute("visible", true);
     }
@@ -779,7 +780,6 @@ fetchFolderContent: async function (folderName) {
     // Determine the next lab member ID
     const nextLabMember = this.currentLabMember + 1;
     if (nextLabMember > 12) {
-      // Assuming there are 10 members per page
       // If it's the last member on the current page, move to the next page
       this.pageNum = Math.min(this.pageNum + 1, this.maxPageNum);
       this.loadLabMembers(this.pageNum);
@@ -788,16 +788,32 @@ fetchFolderContent: async function (folderName) {
     }
   },
 
-  playAudio: function (audioUrl) {
-    this.audio.src = audioUrl;
-    this.audio.play();
+  playLabMemberAudio: function () {
+    this.labMemberAudio.play();
   },
 
-  stopAudio: function () {
-    this.audio.pause();
+  stopLabMemberAudio: function () {
+    this.labMemberAudio.pause();
+  },
+
+  playDoorOpenAudio: function () {
+    this.doorOpenAudio.play();
+  },
+
+  playDoorCloseAudio: function () {
+    this.doorCloseAudio.play();
+  },
+
+  playDoorButtonAudio: function () {
+    this.doorButtonAudio.play();
+  },
+
+  playSecretFoundAudio: function () {
+    this.secretFoundAudio.play();
   },
 
   viewLabMember: function (markerID) {
+    this.playDoorOpenAudio();
     // Track the current lab member
     this.currentLabMember = markerID;
     this.labMemberNote.setAttribute("value", "");
@@ -945,8 +961,8 @@ fetchFolderContent: async function (folderName) {
               : jsonData.member.endYear
           );
           this.virtualRoomNumber.setAttribute("value", jsonData.member.labID);
-          console.trace()
-          if (audioUrl) this.playAudio(audioUrl);
+          this.labMemberAudio.src = audioUrl;
+          if (this.labMemberAudio.src) this.playLabMemberAudio();
 
           // Now that the model and info are ready, open the doors and display the model
           this.isDoorAnimating = true;
@@ -964,19 +980,21 @@ fetchFolderContent: async function (folderName) {
   hideModelAndCloseDoors: function (callback) {
     // Stop the particle emitter
     this.smokeEmitter.stopParticles();
-    this.stopAudio();
+    this.playDoorCloseAudio();
+    this.stopLabMemberAudio();
     this.isDoorAnimating = true;
     this.hideModel(() => {
       this.closeDoors(callback);
     });
     this.isDoorAnimating = false;
-    this.egg();
   },
 
   // Does nothing, no need to look here
   egg: function () {
+    console.log(this.history.getHistory());
     if (this.history.checkPattern(this.pi)) {
-      console.log("egg triggered!");
+      this.playSecretFoundAudio();
+      this.startRain();
     }
   },
 
@@ -986,11 +1004,9 @@ fetchFolderContent: async function (folderName) {
     if (this.doorsOpen) {
       this.isDoorAnimating = true;
       this.hideModelAndCloseDoors(() => {
-        console.log("viewing lab member at point 3");
         this.viewLabMember(labMemberId);
       });
     } else {
-      console.log("viewing lab member at point 4");
       this.viewLabMember(labMemberId);
     }
   },
@@ -1010,75 +1026,69 @@ fetchFolderContent: async function (folderName) {
     // This can include fetching data and updating the labMemberButtons array
     // Update this.labMemberButtons to reflect the new set of buttons for the page
   },
+
+
+  startRain: function () {
+    this.rain.startParticles();
+
+  }
 });
 
-// Register a debug component to log raycaster intersections
-AFRAME.registerComponent("debug-raycaster", {
-  init: function () {
-    this.el.addEventListener("raycaster-intersected", (evt) => {
-      console.log("Raycaster has intersected:", evt.detail.el);
-    });
-    this.el.addEventListener("raycaster-intersected-cleared", (evt) => {
-      console.log("Raycaster intersection cleared:", evt.detail.el);
-    });
-  },
-});
+// AFRAME.registerComponent("model-rotator", {
+//   init: function () {
+//     // Store initial rotation and mouse position
+//     this.initialRotation = { x: 0, y: 0 };
+//     this.initialMousePosition = { x: 0, y: 0 };
 
-AFRAME.registerComponent("model-rotator", {
-  init: function () {
-    // Store initial rotation and mouse position
-    this.initialRotation = { x: 0, y: 0 };
-    this.initialMousePosition = { x: 0, y: 0 };
+//     // Bind event handlers to component instance
+//     this.onMouseDown = this.onMouseDown.bind(this);
+//     this.onMouseMove = this.onMouseMove.bind(this);
+//     this.onMouseUp = this.onMouseUp.bind(this);
 
-    // Bind event handlers to component instance
-    this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
+//     // Add event listeners for mouse events
+//     this.el.addEventListener("mousedown", this.onMouseDown);
+//     this.el.addEventListener("mouseup", this.onMouseUp);
+//     window.addEventListener("mousemove", this.onMouseMove);
+//   },
 
-    // Add event listeners for mouse events
-    this.el.addEventListener("mousedown", this.onMouseDown);
-    this.el.addEventListener("mouseup", this.onMouseUp);
-    window.addEventListener("mousemove", this.onMouseMove);
-  },
+//   remove: function () {
+//     // Remove event listeners when the component is removed
+//     this.el.removeEventListener("mousedown", this.onMouseDown);
+//     this.el.removeEventListener("mouseup", this.onMouseUp);
+//     window.removeEventListener("mousemove", this.onMouseMove);
+//   },
 
-  remove: function () {
-    // Remove event listeners when the component is removed
-    this.el.removeEventListener("mousedown", this.onMouseDown);
-    this.el.removeEventListener("mouseup", this.onMouseUp);
-    window.removeEventListener("mousemove", this.onMouseMove);
-  },
+//   onMouseDown: function (event) {
+//     // Store initial mouse position and rotation
+//     this.initialMousePosition.x = event.clientX;
+//     this.initialMousePosition.y = event.clientY;
+//     this.initialRotation.x = this.el.object3D.rotation.x;
+//     this.initialRotation.y = this.el.object3D.rotation.y;
+//   },
 
-  onMouseDown: function (event) {
-    // Store initial mouse position and rotation
-    this.initialMousePosition.x = event.clientX;
-    this.initialMousePosition.y = event.clientY;
-    this.initialRotation.x = this.el.object3D.rotation.x;
-    this.initialRotation.y = this.el.object3D.rotation.y;
-  },
+//   onMouseMove: function (event) {
+//     // Check if mouse button is pressed
+//     if (event.buttons === 1) {
+//       // Calculate rotation change based on mouse movement
+//       const rotationChangeX =
+//         (event.clientX - this.initialMousePosition.x) / 500;
+//       const rotationChangeY =
+//         (event.clientY - this.initialMousePosition.y) / 500;
 
-  onMouseMove: function (event) {
-    // Check if mouse button is pressed
-    if (event.buttons === 1) {
-      // Calculate rotation change based on mouse movement
-      const rotationChangeX =
-        (event.clientX - this.initialMousePosition.x) / 500;
-      const rotationChangeY =
-        (event.clientY - this.initialMousePosition.y) / 500;
+//       // Apply rotation change to the model
+//       this.el.object3D.rotation.x = this.initialRotation.x - rotationChangeY;
+//       this.el.object3D.rotation.y = this.initialRotation.y + rotationChangeX;
+//     }
+//   },
 
-      // Apply rotation change to the model
-      this.el.object3D.rotation.x = this.initialRotation.x - rotationChangeY;
-      this.el.object3D.rotation.y = this.initialRotation.y + rotationChangeX;
-    }
-  },
-
-  onMouseUp: function () {
-    // Reset initial mouse position and rotation
-    this.initialMousePosition.x = 0;
-    this.initialMousePosition.y = 0;
-    this.initialRotation.x = 0;
-    this.initialRotation.y = 0;
-  },
-});
+//   onMouseUp: function () {
+//     // Reset initial mouse position and rotation
+//     this.initialMousePosition.x = 0;
+//     this.initialMousePosition.y = 0;
+//     this.initialRotation.x = 0;
+//     this.initialRotation.y = 0;
+//   },
+// });
 
 class IDHistory {
   constructor(maxSize = 5) {
