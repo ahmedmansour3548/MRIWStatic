@@ -8,6 +8,7 @@
 	},
 	"model" :
 	{
+		"modelFile": "Spanner.glb",
 		"scale" : "0.1 0.1 0.1"
 	}
 	
