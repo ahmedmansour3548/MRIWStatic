@@ -1,0 +1,16 @@
+{
+	"member" :
+	{
+		"name" : "Yup Yupper",
+		"labID" : "007",
+		"role" : "Ph.D Research Assistant",
+		"note" : "Something something"
+	},
+	"model" :
+	{
+		"position" : "0 0 0.5",
+		"scale" : "0.4 0.4 0.4"
+	}
+	
+	
+}
