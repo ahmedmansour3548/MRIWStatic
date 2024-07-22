@@ -30,7 +30,7 @@
 					<a-plane gltf-model="./assets/door/left/DoorV5LeftPanelFrame.glb" position="-0.7 -0.07 -0.25"
 						rotation="90 0 0" scale="0.5 0.5 0.5">
 					</a-plane>
-					<a-box id="left-line-divider" visible="false" position="-0.77 0.01 -0.35" scale="0.015 0.05 0.55"
+					<a-box id="left-line-divider" visible="false" position="-0.77 -0.07 -0.35" scale="0.015 0.05 0.55"
 						rotation="0 90 0" material="color: #1A1A1A; opacity: 1;">
 					</a-box>
 
@@ -226,12 +226,12 @@
 							</a-troika-text>
 						</a-entity>
 					</a-entity>
-					<a-entity id="left-panel-labmember-info" position="-0.78 0 -0.5" rotation="-90 0 0"
+					<a-entity id="left-panel-labmember-info" position="-0.78 -0.065 -0.5" rotation="-90 0 0"
 						scale="0.1 0.1 0.1">
 						<a-box id="labMemberNumberBox" visible="false" position="0 0 0" scale="1.6 0.7 0.5"
 							rotation="0 0 0" material="color: #191919; opacity: 1;">
 						</a-box>
-						<a-troika-text id="lab-member-number" value="" position="0 0 0.6" color="white" font-size="0.6"
+						<a-troika-text id="lab-member-number" value="" position="0 0 0.3" color="white" font-size="0.6"
 							align="center" line-height="1" max-width="8" font="./assets/fonts/PixelDigivolveItalic.otf">
 						</a-troika-text> 
 						<a-troika-text id="lab-member-name" value="" position="0 -0.9 0" color="white" font-size="0.6"
@@ -329,18 +329,18 @@
 					</a-plane>
 					<a-entity>
 						<a-entity id="top-quotes" visible="false"
-							gltf-model="./assets/door/right/DoorRightPanelQuotes.glb" position="0.6 0.01 -0.5"
+							gltf-model="./assets/door/right/DoorRightPanelQuotes.glb" position="0.6 -0.07 -0.5"
 							rotation="0 180 0" scale="0.08 0.08 0.08">
 						</a-entity>
-						<a-box id="right-note-box" visible="false" position="0.76 0.01 -0.1" scale="0.015 0.05 0.55"
+						<a-box id="right-note-box" visible="false" position="0.76 -0.07 -0.1" scale="0.015 0.05 0.55"
 							rotation="0 90 0" material="color: #121212; opacity: 1;">
 						</a-box>
-						<a-troika-text id="lab-member-note" value="" position="0.8 0.01 -0.33" scale="1 1 1"
+						<a-troika-text id="lab-member-note" value="" position="0.8 -0.06 -0.33" scale="1 1 1"
 							rotation="-90 0 0" color="white" font-size="0.035" align="center" line-height="1"
 							max-width="0.35" font="./assets/fonts/PixelDigivolveItalic.otf">
 						</a-troika-text>
 						<a-entity id="bottom-quotes" visible="false"
-							gltf-model="./assets/door/right/DoorRightPanelQuotes.glb" position="1 0.01 -0.2"
+							gltf-model="./assets/door/right/DoorRightPanelQuotes.glb" position="1 -0.07 -0.2"
 							rotation="0 0 0" scale="0.08 0.08 0.08">
 						</a-entity>
 						<a-troika-text id="model-credit" value="" position="0.75 0.01 -0.13" rotation="-90 0 0" color="white" font-size="0.012"
@@ -406,6 +406,22 @@
               particleCount: 5000;
               opacity: 0.01;
               blending: 2;">
+				</a-entity>
+				<a-entity id="rain" rotation="0 0 0" position="0 0 -1" particle-system="
+              enabled: false;
+              preset: snow;
+              texture: ./assets/effects/pi.png;
+              size: 2.5;
+              velocityValue: 0 0 -0.5;
+              velocitySpread: 0 0 1;
+              positionSpread: 3 0 0;
+              accelerationValue: 0 0 -0.1;
+              accelerationSpread: 0 0 0;
+              rotationAngleSpread: 0.1;
+              maxAge: 5;
+              particleCount: 30;
+              opacity: 1;
+              blending: 1;">
 				</a-entity>
 			</a-entity>
 		</a-marker>
