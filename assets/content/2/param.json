@@ -6,7 +6,8 @@
 		"role" : "Graduate Research Assistant",
 		"note" : "I didn't believe in the saying 'great loves start with hatred' until I met compute shaders",
 		"link" : "https://berkcetinsaya.com",
-		"startYear": "2020"
+		"startYear": "2020",
+		"audioFile" : "audio.mp3"
 	},
 	"model" :
 	{
