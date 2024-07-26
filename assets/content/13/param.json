@@ -1,16 +1,18 @@
 {
 	"member" :
 	{
-		"name" : "Michael Scott",
+		"name" : "Martin McCarthy",
 		"labID" : "013",
-		"role" : "Regional Manager",
-		"note" : "I'm not superstitious... but I am little stitious."
+		"role" : "Graduate Research Assistant",
+		"note" : "Me? I've never articulated anything. I'm completely incoherent.",
+		"link" : "martin-mccarthy.com",
+		"startYear": "2024",
+		"audioFile": "cartoonrun.mp3"
 	},
 	"model" :
 	{
-		"modelFile": "Spanner.glb",
-		"scale" : "0.1 0.1 0.1"
+		"modelFile": "airjordan.glb",
+		"position" : "0 -2 0.25",
+		"scale" : "0.07 0.07 0.07"
 	}
-	
-	
 }
