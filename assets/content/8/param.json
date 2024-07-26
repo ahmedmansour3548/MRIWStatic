@@ -11,7 +11,9 @@
 	"model" :
 	{
 		"modelFile": "jiapengchi.glb",
-		"scale" : "0.1 0.1 0.1"
+		"position" : "0 -2 0.4",
+		"scale" : "0.4 0.4 0.4",
+		"animationIndex" : "2"
 	}
 	
 	
