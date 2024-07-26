@@ -4,12 +4,14 @@
 		"name" : "Lukas Schoenfeld",
 		"labID" : "006",
 		"role" : "Undergraduate Research Assistant",
-		"note" : "Lukas with a k, it's better that way"
+		"note" : "Lukas with a k, it's better that way",
+		"startYear": "2024"
 	},
 	"model" :
 	{
 		"modelFile": "soccer_ball.glb",
-		"scale" : "0.015 0.015 0.015"
+		"scale" : "0.015 0.015 0.015",
+		"credit": "BagraEnes on TurboSquid"
 	}
 	
 	
