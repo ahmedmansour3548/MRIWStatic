@@ -1,15 +1,19 @@
 {
 	"member" :
 	{
-		"name" : "Spongebob Squarepants",
+		"name" : "Jiapeng Chi",
 		"labID" : "008",
-		"role" : "Fry Cook",
-		"note" : "I'm REAAAAADY!"
+		"role" : "Graduate Research Assistant",
+		"note" : "Hi, I'm Jiapeng Chi!",
+		"link" : "https://jiapengchi.github.io/",
+		"startYear": "2020"
 	},
 	"model" :
 	{
-		"modelFile": "blenderforunreal.glb",
-		"scale" : "0.1 0.1 0.1"
+		"modelFile": "jiapengchi.glb",
+		"position" : "0 -2 0.4",
+		"scale" : "0.4 0.4 0.4",
+		"animationIndex" : "2"
 	}
 	
 	
