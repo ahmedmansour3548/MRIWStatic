@@ -13,7 +13,7 @@ Welcome to the Project Name repository! This project is designed to [brief descr
 
 ## About the Project
 
-[Provide a more detailed description of the project, its goals, and functionalities.]
+This repository hosts the Mixed Reality Interactive Wall project as well as houses the content for each lab member.
 
 
 ## Uploading New Content
@@ -57,6 +57,7 @@ param.json example:
 ## Useful Websites for 3D Models
 
 Freemium AI tool to convert text into a 3D model
+
 https://www.meshy.ai/features/text-to-3d
 
 
