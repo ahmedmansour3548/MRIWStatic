@@ -8,7 +8,7 @@
 	},
 	"model" :
 	{
-		"modelFile": "horse_walk.glb",
+		"modelFile": "soccer_ball.glb",
 		"scale" : "0.015 0.015 0.015"
 	}
 	
