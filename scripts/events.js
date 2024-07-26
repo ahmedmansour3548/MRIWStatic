@@ -156,11 +156,21 @@ AFRAME.registerComponent("click-listener", {
     this.textAnimation = null;
     this.buttonsPerPage = 12;
     this.totalButtons = 0;
-    this.noteMaximumSize = 0.03; // Largest allowable font size
+    this.onModelLoaded = null;
     this.history = new IDHistory();
     this.pi = [3, 1, 4, 1, 5];
-    this.euler = [2, 1, 7, 8];
-    this.birth = [4, 12, 1, 9, 9, 9];
+    this.euler = [2, 1, 7, 8, 2];
+    this.birth = [4, 12, 1, 9, 9];
+    this.modelParams = {  // Allowed model parameters
+      scale: "scale",
+      position: "position",
+      rotation: "rotation",
+      color: "color",
+      opacity: "opacity",
+      visible: "visible",
+      castShadow: "cast-shadow",
+      receiveShadow: "receive-shadow",
+    };
     // Animation Variables - Modify these to adjust animation timings and positions
     this.doorOpenDuration = 1000; // Duration of opening animation (Default: 1000)
     this.doorOpenPosition = 0.35; // Absolute value of x position of doors in their opened state (Default: 0.35)
@@ -182,7 +192,6 @@ AFRAME.registerComponent("click-listener", {
     this.doorOpenPause = 500; // Time delay between click and door opening (Default: 500)
     this.doorReopenPause = 500; // Time delay between door closing and reopening (Default: 500)
     this.highlightDuration = 75; // Duration of button highlight upon click (Default: 75)
-    this.smokeBlasterDuration = 2000; // Duration of active door steam blasters
 
     this.buttonColor = "#FFC904"; // Default color of button planes
     this.highlightColor = "#d0a50a"; // Highlight color upon click
@@ -208,7 +217,7 @@ AFRAME.registerComponent("click-listener", {
   },
 
   fetchLocalContent: async function () {
-    const metadataUrl = '/assets/content/metadata.json';
+    const metadataUrl = './assets/content/metadata.json';
 
     try {
         // Fetch metadata.json to get the number of members
@@ -237,7 +246,7 @@ AFRAME.registerComponent("click-listener", {
 },
 
 fetchFolderContent: async function (folderName) {
-  const folderPath = `/assets/content/${folderName}`;
+  const folderPath = `./assets/content/${folderName}`;
   const paramFilePath = `${folderPath}/param.json`;
 
   try {
@@ -253,7 +262,7 @@ fetchFolderContent: async function (folderName) {
       const audioFileName = paramData.member.audioFile;
 
       // Construct the full URLs for the model and audio files
-      const modelFileUrl = modelFileName ? `${folderPath}/${modelFileName}` : `/assets/content/${folderName}/model.glb`;
+      const modelFileUrl = modelFileName ? `${folderPath}/${modelFileName}` : `./assets/content/${folderName}/model.glb`;
       const audioFileUrl = audioFileName ? `${folderPath}/${audioFileName}` : null;
 
       return {
@@ -788,7 +797,8 @@ fetchFolderContent: async function (folderName) {
     }
   },
 
-  playLabMemberAudio: function () {
+  playLabMemberAudio: function (audioUrl) {
+    this.labMemberAudio.src = audioUrl;
     this.labMemberAudio.play();
   },
 
@@ -826,31 +836,23 @@ fetchFolderContent: async function (folderName) {
       console.error("Lab member content not found");
       return;
     }
-
     const { modelUrl, jsonUrl, audioUrl } = labMemberContent;
     if (!modelUrl || !jsonUrl) {
       console.error("Model or JSON file URL not found");
       return;
     }
-
     // Fetch the JSON parameter file
     fetch(jsonUrl)
-      .then((response) => response.json())
+      .then(response => {
+        if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+    })
       .then((jsonData) => {
-        console.log(jsonData);
         if (jsonData.model) {
-          // Apply custom model parameters
-          const modelParams = {
-            scale: "scale",
-            position: "position",
-            rotation: "rotation",
-            color: "color",
-            opacity: "opacity",
-            visible: "visible",
-            castShadow: "cast-shadow",
-            receiveShadow: "receive-shadow",
-          };
-          for (const [key, attr] of Object.entries(modelParams)) {
+          // Apply specified model parameters
+          for (const [key, attr] of Object.entries(this.modelParams)) {
             if (jsonData.model[key]) {
               console.log("setting param ", key);
               this.centerEntity.setAttribute(attr, jsonData.model[key]);
@@ -905,74 +907,76 @@ fetchFolderContent: async function (folderName) {
           this.modelCredit.setAttribute("value", jsonData.model.credit);
         }
 
+        // Wait for model to be loaded
+        // Define the event handler function
+      const onModelLoaded = () => {
+        const model = this.centerEntity.getObject3D("mesh");
+
         // Check for animations in the loaded model
-        this.centerEntity.addEventListener("model-loaded", () => {
-          const model = this.centerEntity.getObject3D("mesh");
-          if (model && model.animations && model.animations.length > 0) {
-            this.hasAnimation = true;
-            // Create a mixer to play the animations
-            this.mixer = new THREE.AnimationMixer(model);
-            this.clips = model.animations;
+        if (model && model.animations && model.animations.length > 0) {
+          this.hasAnimation = true;
+          // Create a mixer to play the animations
+          this.mixer = new THREE.AnimationMixer(model);
+          this.clips = model.animations;
 
-            // Play the animation
-            this.currentClip = this.mixer.clipAction(
-              this.clips[this.animationNum]
-            );
-            this.currentClip.play();
+          // Play the animation
+          this.currentClip = this.mixer.clipAction(this.clips[this.animationNum]);
+          this.currentClip.play();
 
-            // Update the animation on each frame
-            this.tick = (time, deltaTime) => {
-              if (this.mixer) {
-                this.mixer.update(deltaTime / 1000);
-              }
-            };
-            this.el.sceneEl.addBehavior(this);
-          }
-          // Set the panel buttons here to ensure animations are checked before
-          this.hideRightPanelButtons();
-          this.setPanelButtons();
-          this.resetModelAnimation();
+          // Update the animation on each frame
+          this.tick = (time, deltaTime) => {
+            if (this.mixer) {
+              this.mixer.update(deltaTime / 1000);
+            }
+          };
+          this.el.sceneEl.addBehavior(this);
+        }
 
-          // Set the value of the text attributes to the extracted information
-          // Dynamically set the font size depending on character length
-          this.labMemberNote.setAttribute(
-            "font-size",
-            Math.max(
-              0.07 -
-                (jsonData.member.note.length / 100) *
-                  (0.07 - this.noteMaximumSize),
-              this.noteMaximumSize
-            )
-          );
-          this.labMemberNumber.setAttribute("value", jsonData.member.labID);
-          this.labMemberName.setAttribute("value", jsonData.member.name);
-          this.labMemberRole.setAttribute("value", jsonData.member.role);
-          this.labMemberNote.setAttribute("value", jsonData.member.note);
-          this.labMemberStartYear.setAttribute(
-            "value",
-            jsonData.member.startYear == null
-              ? "2024"
-              : jsonData.member.startYear
-          );
-          this.labMemberEndYear.setAttribute(
-            "value",
-            jsonData.member.endYear == null
-              ? "Present"
-              : jsonData.member.endYear
-          );
-          this.virtualRoomNumber.setAttribute("value", jsonData.member.labID);
-          this.labMemberAudio.src = audioUrl;
-          if (this.labMemberAudio.src) this.playLabMemberAudio();
+        // Set the panel buttons here to ensure animations are checked before
+        this.hideRightPanelButtons();
+        this.setPanelButtons();
+        this.resetModelAnimation();
 
-          // Now that the model and info are ready, open the doors and display the model
-          this.isDoorAnimating = true;
-          this.openDoors(() => {
-            // Small delay before moving model
-            setTimeout(() => {
-              this.displayModel();
-            }, this.modelEnterDelay);
-          });
+        // Set the value of the text attributes to the extracted information
+        // Dynamically set the font size depending on character length
+        this.labMemberNote.setAttribute(
+          "font-size",
+          Math.max(
+            0.07 - (jsonData.member.note.length / 100) * (0.07 - this.noteMaximumSize),
+            this.noteMaximumSize
+          )
+        );
+        this.labMemberNumber.setAttribute("value", jsonData.member.labID);
+        this.labMemberName.setAttribute("value", jsonData.member.name);
+        this.labMemberRole.setAttribute("value", jsonData.member.role);
+        this.labMemberNote.setAttribute("value", jsonData.member.note);
+        this.labMemberStartYear.setAttribute(
+          "value",
+          jsonData.member.startYear == null ? "2024" : jsonData.member.startYear
+        );
+        this.labMemberEndYear.setAttribute(
+          "value",
+          jsonData.member.endYear == null ? "Present" : jsonData.member.endYear
+        );
+        this.virtualRoomNumber.setAttribute("value", jsonData.member.labID);
+
+        console.log("audioUrl", audioUrl);
+        if (audioUrl) this.playLabMemberAudio(audioUrl);
+
+        // Now that the model and info are ready, open the doors and display the model
+        this.isDoorAnimating = true;
+        this.openDoors(() => {
+          // Small delay before moving model
+          setTimeout(() => {
+            this.displayModel();
+          }, this.modelEnterDelay);
         });
+      };
+      // Add the event listener with the named function
+      this.centerEntity.addEventListener("model-loaded", onModelLoaded);
+      
+      // Store the event handler reference to use for removing the listener
+      this.onModelLoaded = onModelLoaded;
       })
       .catch((error) => console.error("Error fetching JSON file:", error));
   },
@@ -980,6 +984,8 @@ fetchFolderContent: async function (folderName) {
   hideModelAndCloseDoors: function (callback) {
     // Stop the particle emitter
     this.smokeEmitter.stopParticles();
+    this.centerEntity.setAttribute("gltf-model", null);
+    this.centerEntity.removeEventListener("model-loaded", this.onModelLoaded);
     this.playDoorCloseAudio();
     this.stopLabMemberAudio();
     this.isDoorAnimating = true;
