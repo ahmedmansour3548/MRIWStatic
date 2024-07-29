@@ -11,7 +11,7 @@
 	{
 		"modelFile": "shrek_walk_cycle.glb",
 		"scale" : "0.4 0.4 0.4",
-		"position" : "0 -2 0.4",
+		"position" : "0 0 0.4",
 		"animationIndex" : "1"
 	}
 	
